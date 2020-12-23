@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/JAVA/Tb_Kasir/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Yobved/git/TB_KASIR_BPL_KEL1/Tb_Kasir/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout-swing.jar" sourcepath="lib/miglayout-swing-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Tb_Kasir/lib/miglayout-swing-javadoc.jar!/"/>

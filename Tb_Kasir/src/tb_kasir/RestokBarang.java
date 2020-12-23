@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 
 public class RestokBarang {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTable table;
@@ -101,10 +101,10 @@ public class RestokBarang {
 				ResultSet res;
 				
 				String sku = textField_1.getText();
-				String stok = textField.getText();
+				int stok = Integer.parseInt(textField.getText());
 				
 				
-				if(sku.equals("") || stok.equals(""))
+				if(sku.equals("") || stok == 0)
 				{
 					JOptionPane.showMessageDialog(null,"Silahkan isi data dengan lengkap");
 				}
@@ -112,9 +112,20 @@ public class RestokBarang {
 				{
 					try
 					{
-						String query = "UPDATE barang SET stock = '"+stok+"' WHERE sku = '"+sku+"'";
+						String query2 = "SELECT * FROM barang WHERE sku = '"+sku+"'";
 						databaseHandler database = new databaseHandler();
 						con = database.getConnect();
+
+						PreparedStatement prt2 = con.prepareStatement(query2);
+
+						res = prt2.executeQuery();
+						
+						while(res.next())
+						{
+							stok = res.getInt("stock") + stok;
+						}
+						
+						String query = "UPDATE barang SET stock = '"+stok+"' WHERE sku = '"+sku+"'";
 						PreparedStatement prt = con.prepareStatement(query);
 						prt.execute();
 						
@@ -131,11 +142,11 @@ public class RestokBarang {
 				
 			}
 		});
-		btnNewButton.setBounds(39, 174, 117, 23);
+		btnNewButton.setBounds(10, 213, 163, 23);
 		frame.getContentPane().add(btnNewButton);
 		
 		textField = new JTextField();
-		textField.setBounds(39, 128, 117, 20);
+		textField.setBounds(10, 128, 117, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -144,20 +155,20 @@ public class RestokBarang {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Jumlah Barang");
-		lblNewLabel_1.setBounds(39, 103, 84, 14);
+		lblNewLabel_1.setBounds(10, 103, 117, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(37, 73, 119, 20);
+		textField_1.setBounds(10, 73, 119, 20);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("SKU Barang");
-		lblNewLabel_2.setBounds(39, 48, 117, 14);
+		lblNewLabel_2.setBounds(10, 48, 131, 14);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		table = new JTable();
-		table.setBounds(202, 49, 194, 159);
+		table.setBounds(179, 32, 245, 159);
 		frame.getContentPane().add(table);
 	}
 

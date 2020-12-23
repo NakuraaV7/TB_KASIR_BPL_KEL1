@@ -25,6 +25,8 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	
+	public String usernames;
 	static Login frame = new Login();
 
 	/**
@@ -87,7 +89,7 @@ public class Login extends JFrame {
 				String password = new String(passwordField.getPassword());
 				Boolean result = false;
 				databaseHandler database = new databaseHandler();
-				KelolaUser home = new KelolaUser();
+				Home home = new Home();
 				
 				con = database.conn;
 				stat = database.stat;
@@ -107,9 +109,9 @@ public class Login extends JFrame {
 							if(username.equals(res.getString("username")) && password.equals(res.getString("password")))
 							{
 								JOptionPane.showMessageDialog(null,"Selamat datang");
-								home.setVisible(true);
+								home.frmFormHome.setVisible(true);
 								dispose();
-								home.setLocationRelativeTo(null);
+								home.frmFormHome.setLocationRelativeTo(null);
 								frame.setVisible(false);
 							}
 						}

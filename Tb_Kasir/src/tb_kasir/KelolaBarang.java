@@ -23,13 +23,14 @@ import java.util.List;
 
 public class KelolaBarang {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTable table;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -42,7 +43,6 @@ public class KelolaBarang {
 				try {
 					KelolaBarang window = new KelolaBarang();
 					window.frame.setVisible(true);
-					window.frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -175,11 +175,83 @@ public class KelolaBarang {
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Update");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connection con;
+				Statement stat;
+				ResultSet res;
+				
+				String sku = textField.getText();
+				String nama = textField_1.getText();
+				String stok = textField_2.getText();
+				String harga_beli = textField_3.getText();
+				String harga_jual = textField_4.getText();
+
+				try
+				{
+					databaseHandler database = new databaseHandler();
+					con = database.getConnect();
+					String query = "UPDATE barang SET sku = '"+sku+"', nama = '"+nama+"' , stock = '"+stok+"', harga_jual = '"+harga_jual+"', harga_beli = '"+harga_beli+"' WHERE sku = '"+sku+"' ";
+					
+					PreparedStatement prt = con.prepareStatement(query);
+					prt.execute();
+					
+					JOptionPane.showMessageDialog(null,"Data barang berhasil diperbaharui");
+					textField.setText("");
+					textField_1.setText("");
+					textField_2.setText("");
+					textField_3.setText("");
+					textField_4.setText("");
+
+					loadData();
+				}
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(null,e.getMessage(),"warning", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 		btnNewButton_2.setBounds(172, 275, 89, 23);
 		frame.getContentPane().add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Cari");
-		btnNewButton_3.setBounds(469, 275, 89, 23);
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connection con;
+				Statement stat;
+				ResultSet res;
+				
+				String cari = textField_5.getText();
+				
+				try
+				{
+					databaseHandler database = new databaseHandler();
+					con = database.getConnect();
+					String query = "SELECT * FROM barang WHERE sku = '"+cari+"'";
+					
+					PreparedStatement prt = con.prepareStatement(query);
+					res = prt.executeQuery();
+					
+					while(res.next())
+					{
+						JOptionPane.showMessageDialog(null,"Data ditemukan");
+						textField.setText(res.getString("sku"));
+						textField_1.setText(res.getString("nama"));
+						textField_2.setText(res.getString("stock"));
+						textField_3.setText(res.getString("harga_beli"));
+						textField_4.setText(res.getString("harga_jual"));
+					}
+					
+					textField_5.setText("");
+					
+				}
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(null,e.getMessage(),"warning", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		btnNewButton_3.setBounds(466, 10, 89, 23);
 		frame.getContentPane().add(btnNewButton_3);
 		
 		table = new JTable();
@@ -201,12 +273,8 @@ public class KelolaBarang {
 		table.setBounds(171, 72, 387, 192);
 		frame.getContentPane().add(table);
 		
-		JButton btnNewButton_4 = new JButton("Lihat Detail");
-		btnNewButton_4.setBounds(469, 38, 89, 23);
-		frame.getContentPane().add(btnNewButton_4);
-		
 		JLabel lblNewLabel = new JLabel("Pengelolaan Data Master Barang");
-		lblNewLabel.setBounds(25, 2, 184, 23);
+		lblNewLabel.setBounds(25, 2, 220, 23);
 		frame.getContentPane().add(lblNewLabel);
 		
 		textField = new JTextField();
@@ -253,5 +321,30 @@ public class KelolaBarang {
 		JLabel lblNewLabel_5 = new JLabel("Harga Jual");
 		lblNewLabel_5.setBounds(25, 229, 74, 14);
 		frame.getContentPane().add(lblNewLabel_5);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(370, 11, 86, 20);
+		frame.getContentPane().add(textField_5);
+		textField_5.setColumns(10);
+		
+		JLabel lblNewLabel_6 = new JLabel("SKU");
+		lblNewLabel_6.setBounds(183, 47, 70, 14);
+		frame.getContentPane().add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("Nama");
+		lblNewLabel_7.setBounds(256, 47, 46, 14);
+		frame.getContentPane().add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Stock");
+		lblNewLabel_8.setBounds(333, 47, 46, 14);
+		frame.getContentPane().add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Harga Beli");
+		lblNewLabel_9.setBounds(400, 47, 76, 14);
+		frame.getContentPane().add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("Harga Jual");
+		lblNewLabel_10.setBounds(488, 47, 67, 14);
+		frame.getContentPane().add(lblNewLabel_10);
 	}
 }

@@ -4,10 +4,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 
 public class Laporan {
 
-	private JFrame frame;
+	JFrame frame;
+	private JTable table;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -48,6 +53,21 @@ public class Laporan {
 		JLabel lblNewLabel_1 = new JLabel("Laporan Keuntungan");
 		lblNewLabel_1.setBounds(316, 11, 108, 14);
 		frame.getContentPane().add(lblNewLabel_1);
+		
+		table = new JTable();
+		table.setBounds(10, 75, 175, 158);
+		frame.getContentPane().add(table);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(10, 36, 98, 22);
+		frame.getContentPane().add(comboBox);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(326, 36, 84, 22);
+		frame.getContentPane().add(comboBox_1);
+		
+		table_1 = new JTable();
+		table_1.setBounds(237, 75, 187, 158);
+		frame.getContentPane().add(table_1);
 	}
-
 }
